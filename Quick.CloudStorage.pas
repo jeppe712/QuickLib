@@ -215,7 +215,7 @@ begin
   try
     for i := 0 to Length(gmtdate) do
     begin
-      if gmtdate[i] in ['0'..'9'] then
+      if CharInSet(gmtdate[i],['0'..'9']) then
       begin
         Len := i;
         Break;
