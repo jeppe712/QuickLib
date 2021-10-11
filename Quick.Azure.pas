@@ -75,7 +75,6 @@ type
       procedure SetAccountKey(azAccountKey : string);
       procedure SetAzureProtocol(azProtocol : TAzureProtocol);
       function FileToArray(cFilename : string) : TArray<Byte>;
-      function StreamToArray(cStream : TStream) : TArray<Byte>;
       function ByteContent(DataStream: TStream): TBytes;
       function GMT2DateTime(const gmtdate : string):TDateTime;
       function CheckContainer(const aContainer : string) : string;
@@ -162,26 +161,12 @@ end;
 function TQuickAzure.FileToArray(cFilename : string) : TArray<Byte>;
 var
   fs : TFileStream;
-  bs : TBytesStream;
 begin
   fs := TFileStream.Create(cFilename, fmOpenRead);
   try
     Result := ByteContent(fs);
   finally
     fs.Free;
-  end;
-end;
-
-function TQuickAzure.StreamToArray(cStream : TStream) : TArray<Byte>;
-var
-  bs : TBytesStream;
-begin
-  bs := TBytesStream.Create(Result);
-  try
-    bs.LoadFromStream(cStream);
-    Result := bs.Bytes;
-  finally
-    bs.Free
   end;
 end;
 
@@ -229,7 +214,7 @@ begin
   try
     for i := 0 to Length(gmtdate) do
     begin
-      if gmtdate[i] in ['0'..'9'] then
+      if CharInSet(gmtdate[i],['0'..'9']) then
       begin
         Len := i;
         Break;
@@ -385,6 +370,7 @@ end;
 
 function TQuickAzure.GetBlob(const azContainer, azBlobName : string; out azResponseInfo : TAzureResponseInfo; out Stream : TMemoryStream) : Boolean;
 begin
+  Result := false;
   Stream := TMemoryStream.Create;
   try
     Result := GetBlob(azContainer,azBlobName,azResponseInfo,TStream(Stream));
