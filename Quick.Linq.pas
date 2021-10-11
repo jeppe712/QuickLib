@@ -499,9 +499,10 @@ begin
       vtAnsiString : Result := StringReplace(Result,'?',string(aWhereParams[i].VAnsiString),[]);
       vtWideString : Result := StringReplace(Result,'?',string(aWhereParams[i].VWideString^),[]);
       {$IFNDEF NEXTGEN}
-      vtString : Result := StringReplace(Result,'?',aWhereParams[i].VString^,[]);
+      vtString : Result := StringReplace(Result,'?',string(aWhereParams[i].VString^),[]);
       {$ENDIF}
-      vtChar : Result := StringReplace(Result,'?',aWhereParams[i].VChar,[]);
+      vtWideChar: Result := StringReplace(Result,'?',string(aWhereParams[i].VChar),[]);
+      vtChar : Result := StringReplace(Result,'?',string(aWhereParams[i].VChar),[]);
       vtPChar : Result := StringReplace(Result,'?',string(aWhereParams[i].VPChar),[]);
     else Result := StringReplace(Result,'?', DbQuotedStr(string(aWhereParams[i].VUnicodeString)),[]);
     end;
