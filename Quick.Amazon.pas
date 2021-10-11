@@ -102,7 +102,6 @@ type
       procedure SetAmazonProtocol(amProtocol : TAmazonProtocol);
       procedure SetAWSRegion(Value : TAmazonRegion);
       function FileToArray(cFilename : string) : TArray<Byte>;
-      function StreamToArray(cStream : TStream) : TArray<Byte>;
       function ByteContent(DataStream: TStream): TBytes;
     public
       constructor Create; overload;
@@ -200,26 +199,12 @@ end;
 function TQuickAmazon.FileToArray(cFilename : string) : TArray<Byte>;
 var
   fs : TFileStream;
-  bs : TBytesStream;
 begin
   fs := TFileStream.Create(cFilename, fmOpenRead);
   try
     Result := ByteContent(fs);
   finally
     fs.Free;
-  end;
-end;
-
-function TQuickAmazon.StreamToArray(cStream : TStream) : TArray<Byte>;
-var
-  bs : TBytesStream;
-begin
-  bs := TBytesStream.Create(Result);
-  try
-    bs.LoadFromStream(cStream);
-    Result := bs.Bytes;
-  finally
-    bs.Free
   end;
 end;
 
