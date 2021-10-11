@@ -304,7 +304,6 @@ const
   cSCMError = 'Error trying to open SC Manager (you need admin permissions)';
 var
   servicetype : Cardinal;
-  starttype : Cardinal;
   svcloadgroup : PChar;
   svcdependencies : PChar;
   svcusername : PChar;
